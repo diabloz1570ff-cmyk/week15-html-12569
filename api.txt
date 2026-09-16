@@ -1,0 +1,24 @@
+import express from 'express';
+import cors from 'cors';
+
+const app = express();
+
+// ติดตั้ง Middleware CORS และ JSON Parser
+app.use(cors()); 
+app.use(express.json());
+
+let users = [{ id: 1, name: 'Oak' }];
+
+// GET: ส่งข้อมูลกลับ
+app.get('/api/users', (req, res) => {
+  res.json(users);
+});
+
+// POST: รับข้อมูลเพิ่มเข้าไป
+app.post('/api/users', (req, res) => {
+  const newUser = { id: Date.now(), name: req.body.name };
+  users.push(newUser);
+  res.status(201).json(newUser);
+});
+
+app.listen(5000, () => console.log('Server running on port 5000'));
